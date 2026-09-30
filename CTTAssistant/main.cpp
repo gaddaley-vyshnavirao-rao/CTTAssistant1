@@ -8,6 +8,8 @@
 #include <Windows.h>
 #include <Shellapi.h>
 #include <ctime>
+#include <filesystem>
+
 int main()
 {
     std::string projectPath;
@@ -181,15 +183,28 @@ int main()
 
     std::string reportPath =
         projectPath + "\\CTT_Report.html";
+    std::filesystem::path projectFilePath(
+        info.projectFile);
 
-    if (report.Generate(
+    std::string projectName =
+        projectFilePath.stem().string();
+    if (projectName.size() > 4 &&
+        projectName.substr(projectName.size() - 4) == ".ctt")
+    {
+        projectName =
+            projectName.substr(
+                0,
+                projectName.size() - 4);
+    }
+    if(report.Generate(
         reportPath,
-        "demo",
+        projectName,
         dateTime,
         approved,
         failed,
         warning,
         skipped))
+
     {
         std::cout
             << "\nHTML Report Generated\n";
