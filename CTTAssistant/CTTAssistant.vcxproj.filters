@@ -36,6 +36,15 @@
     <ClCompile Include="HTMLReportGenerator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ProjectConfigReader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ProjectValidator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EndpointParser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ProjectInfo.h">
@@ -60,6 +69,21 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="HTMLReportGenerator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ProjectConfiguration.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ProjectConfigReader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ProjectValidator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EndpointInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EndpointParser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

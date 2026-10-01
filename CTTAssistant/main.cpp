@@ -9,7 +9,10 @@
 #include <Shellapi.h>
 #include <ctime>
 #include <filesystem>
-
+#include "ProjectConfigReader.h"
+#include "ProjectConfiguration.h"
+#include "EndpointParser.h"
+#include "EndpointInfo.h"
 int main()
 {
     std::string projectPath;
@@ -37,6 +40,55 @@ int main()
     std::cout << "\n\nSelection File:\n"
         << info.selectionFile
         << "\n";
+    
+    ProjectConfigReader configReader;
+
+    ProjectConfiguration config;
+
+    if (configReader.Read(
+        info.projectFile,
+        config))
+    {
+        std::cout
+            << "\n=====================================\n";
+
+        std::cout
+            << "      PROJECT CONFIGURATION\n";
+
+        std::cout
+            << "=====================================\n\n";
+
+        std::cout
+            << "Server URL : "
+            << config.serverUrl
+            << "\n";
+        EndpointParser parser;
+
+        EndpointInfo endpoint;
+
+        if (parser.Parse(
+            config.serverUrl,
+            endpoint))
+        {
+            std::cout
+                << "Host : "
+                << endpoint.host
+                << "\n";
+
+            std::cout
+                << "Port : "
+                << endpoint.port
+                << "\n";
+        }
+        
+
+        std::cout
+            << "Certificates : "
+            << (config.hasCertificates
+                ? "Configured"
+                : "Not Configured")
+            << "\n";
+    }
 
     SelectionManager selectionManager;
     int choice;
@@ -69,9 +121,24 @@ int main()
     ResultParser parser;
 
     std::vector<TestCaseInfo> tests;
+    std::filesystem::path projectFilePath(
+        info.projectFile);
 
+    std::string projectName =
+        projectFilePath.stem().string();
+
+    if (projectName.size() > 4 &&
+        projectName.substr(projectName.size() - 4) == ".ctt")
+    {
+        projectName =
+            projectName.substr(
+                0,
+                projectName.size() - 4);
+    }
     std::string resultFile =
-        projectPath + "\\demo.results.xml";
+        projectPath + "\\"
+        + projectName
+        + ".results.xml"; 
 
     std::vector<TestCaseInfo> approved;
     std::vector<TestCaseInfo> failed;
@@ -183,19 +250,8 @@ int main()
 
     std::string reportPath =
         projectPath + "\\CTT_Report.html";
-    std::filesystem::path projectFilePath(
-        info.projectFile);
-
-    std::string projectName =
-        projectFilePath.stem().string();
-    if (projectName.size() > 4 &&
-        projectName.substr(projectName.size() - 4) == ".ctt")
-    {
-        projectName =
-            projectName.substr(
-                0,
-                projectName.size() - 4);
-    }
+    
+    
     if(report.Generate(
         reportPath,
         projectName,
@@ -230,4 +286,5 @@ int main()
         std::cout
             << "\nFailed To Generate HTML Report\n";
     }
+    return 0;
 }

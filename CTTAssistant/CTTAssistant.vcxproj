@@ -124,19 +124,27 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="EndpointParser.cpp" />
     <ClCompile Include="ExecutionManager.cpp" />
     <ClCompile Include="HTMLReportGenerator.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="ProjectConfigReader.cpp" />
     <ClCompile Include="ProjectDiscovery.cpp" />
+    <ClCompile Include="ProjectValidator.cpp" />
     <ClCompile Include="ResultParser.cpp" />
     <ClCompile Include="SelectionManager.cpp" />
     <ClCompile Include="tinyxml2.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="EndpointInfo.h" />
+    <ClInclude Include="EndpointParser.h" />
     <ClInclude Include="ExecutionManager.h" />
     <ClInclude Include="HTMLReportGenerator.h" />
+    <ClInclude Include="ProjectConfigReader.h" />
+    <ClInclude Include="ProjectConfiguration.h" />
     <ClInclude Include="ProjectDiscovery.h" />
     <ClInclude Include="ProjectInfo.h" />
+    <ClInclude Include="ProjectValidator.h" />
     <ClInclude Include="ResultParser.h" />
     <ClInclude Include="SelectionManager.h" />
     <ClInclude Include="TestCaseInfo.h" />
