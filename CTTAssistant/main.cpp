@@ -126,7 +126,14 @@ int main()
                 0,
                 projectName.size() - 4);
     }
-   
+    std::filesystem::path runtimeProject =
+        projectFilePath.parent_path() /
+        (projectName + "_runtime.ctt.xml");
+
+    std::filesystem::copy_file(
+        projectFilePath,
+        runtimeProject,
+        std::filesystem::copy_options::overwrite_existing);
 
     ExecutionManager manager;
 
@@ -135,7 +142,7 @@ int main()
 
     manager.Launch(
         cttPath,
-        info.projectFile,
+        runtimeProject.string(),
         selectionFile);
     std::string resultFile =
         projectPath + "\\"
@@ -288,6 +295,9 @@ int main()
         std::cout
             << "\nFailed To Generate HTML Report\n";
     }
-   
+    if (std::filesystem::exists(runtimeProject))
+    {
+        std::filesystem::remove(runtimeProject);
+    }
     return 0;
 }

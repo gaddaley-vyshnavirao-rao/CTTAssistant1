@@ -24,6 +24,11 @@ bool ProjectDiscovery::Discover(
         std::string file =
             entry.path().string();
 
+        if (file.find("_runtime.ctt.xml") != std::string::npos)
+        {
+            continue;
+        }
+
         if (file.find(".ctt.xml") != std::string::npos)
         {
             info.projectFile = file;
