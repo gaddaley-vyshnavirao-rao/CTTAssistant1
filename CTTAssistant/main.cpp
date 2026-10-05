@@ -109,16 +109,7 @@ int main()
         << selectionFile
         << "\n";
 
-    ExecutionManager manager;
-
-    std::string cttPath =
-        "C:\\Program Files\\OPC Foundation\\UA 1.05\\Compliance Test Tool\\uacompliancetest.exe";
-
-    manager.Launch(
-        cttPath,
-        info.projectFile,
-        selectionFile);
-    ResultParser parser;
+    
 
     std::vector<TestCaseInfo> tests;
     std::filesystem::path projectFilePath(
@@ -135,11 +126,22 @@ int main()
                 0,
                 projectName.size() - 4);
     }
+   
+
+    ExecutionManager manager;
+
+    std::string cttPath =
+        "C:\\Program Files\\OPC Foundation\\UA 1.05\\Compliance Test Tool\\uacompliancetest.exe";
+
+    manager.Launch(
+        cttPath,
+        info.projectFile,
+        selectionFile);
     std::string resultFile =
         projectPath + "\\"
         + projectName
         + ".results.xml"; 
-
+    ResultParser parser;
     std::vector<TestCaseInfo> approved;
     std::vector<TestCaseInfo> failed;
     std::vector<TestCaseInfo> warning;
@@ -149,7 +151,7 @@ int main()
     int failedCount = 0;
     int warningCount = 0;
     int skippedCount = 0;
-
+   
     if (parser.Parse(resultFile, tests))
     {
         std::cout
@@ -286,5 +288,6 @@ int main()
         std::cout
             << "\nFailed To Generate HTML Report\n";
     }
+   
     return 0;
 }
