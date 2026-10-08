@@ -1,6 +1,6 @@
 #include "ResultParser.h"
 #include "tinyxml2.h"
-
+#include <iostream>
 using namespace tinyxml2;
 
 void ResultParser::ParseNode(
@@ -84,7 +84,24 @@ void ResultParser::ParseNode(
         {
             test.description = description;
         }
+        std::cout
+            << "Node: "
+            << nodeName
+            << "\n";
 
+        std::cout
+            << "Category: "
+            << category
+            << "\n";
+
+        std::cout
+            << "Unit: "
+            << unit
+            << "\n\n";
+        std::cout
+            << "ResultCode: "
+            << resultCode
+            << "\n";
         tests.push_back(test);
     }
 
@@ -123,20 +140,42 @@ bool ResultParser::Parse(
         return false;
     }
 
+    XMLElement* latestRun = nullptr;
+
     XMLElement* run =
         root->FirstChildElement("ResultNode");
 
     while (run)
     {
-        ParseNode(
-            run,
-            tests,
-            "",
-            "");
+        latestRun = run;
+
+        std::cout
+            << "RUN: "
+            << run->Attribute("name")
+            << "\n";
 
         run =
             run->NextSiblingElement("ResultNode");
     }
+
+    if (latestRun)
+    {
+        std::cout
+            << "\nLATEST RUN: "
+            << latestRun->Attribute("name")
+            << "\n";
+
+        ParseNode(
+            latestRun,
+            tests,
+            "",
+            "");
+        
+    }
+    std::cout
+        << "\nParsed Tests: "
+        << tests.size()
+        << "\n";
 
     return true;
 }

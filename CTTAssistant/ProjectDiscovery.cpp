@@ -42,6 +42,6 @@ bool ProjectDiscovery::Discover(
 
     info.resultFolder = projectPath;
 
-    return !info.projectFile.empty() &&
-        !info.selectionFile.empty();
+    return !info.projectFile.empty();
+    
 }

@@ -147,7 +147,7 @@ int main()
     std::string resultFile =
         projectPath + "\\"
         + projectName
-        + ".results.xml"; 
+        + "_runtime.results.xml";
     ResultParser parser;
     std::vector<TestCaseInfo> approved;
     std::vector<TestCaseInfo> failed;
@@ -158,7 +158,10 @@ int main()
     int failedCount = 0;
     int warningCount = 0;
     int skippedCount = 0;
-   
+    std::cout
+        << "\nParsing File:\n"
+        << resultFile
+        << "\n";
     if (parser.Parse(resultFile, tests))
     {
         std::cout
@@ -187,7 +190,10 @@ int main()
                 skippedCount++;
             }
         }
-
+        std::cout
+            << "\nParsed Tests: "
+            << tests.size()
+            << "\n";
         int total =
             approvedCount +
             failedCount +
