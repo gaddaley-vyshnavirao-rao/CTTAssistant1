@@ -193,7 +193,7 @@ summary:hover{
 
     html << "</div>";
 
-    html << "<div class='card approved'>Approved<br>"
+    html << "<div class='card approved'>Passed<br>"
         << approved.size()
         << "</div>";
 
@@ -211,7 +211,7 @@ summary:hover{
 
     WriteSection(
         html,
-        "Approved",
+        "Passed",
         approved);
 
     WriteSection(

@@ -231,7 +231,7 @@ int main()
             << "\n";
 
         std::cout
-            << "Approved    : "
+            << "Passed      : "
             << approvedCount
             << "\n";
 

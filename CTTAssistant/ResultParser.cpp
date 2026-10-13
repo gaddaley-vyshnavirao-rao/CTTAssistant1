@@ -91,12 +91,12 @@ void ResultParser::ParseNode(
 
         std::cout
             << "Category: "
-            << category
+            << test.category
             << "\n";
 
         std::cout
             << "Unit: "
-            << unit
+            << test.unit
             << "\n\n";
         std::cout
             << "ResultCode: "
