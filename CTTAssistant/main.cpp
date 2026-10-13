@@ -5,8 +5,11 @@
 #include "ResultParser.h"
 #include <vector>
 #include "HTMLReportGenerator.h"
+#ifdef _WIN32
 #include <Windows.h>
 #include <Shellapi.h>
+#endif
+
 #include <ctime>
 #include <filesystem>
 #include "ProjectConfigReader.h"
@@ -137,17 +140,25 @@ int main()
 
     ExecutionManager manager;
 
+#ifdef _WIN32
+
     std::string cttPath =
         "C:\\Program Files\\OPC Foundation\\UA 1.05\\Compliance Test Tool\\uacompliancetest.exe";
+
+#else
+
+    std::string cttPath =
+        "/home/siemens/Downloads/uactt/UaCtt-1.03.09-01.00.513-x86_64.AppImage";
+
+#endif
 
     manager.Launch(
         cttPath,
         runtimeProject.string(),
         selectionFile);
-    std::string resultFile =
-        projectPath + "\\"
-        + projectName
-        + "_runtime.results.xml";
+    std::filesystem::path resultFile =
+        std::filesystem::path(projectPath) /
+        (projectName + "_runtime.results.xml");
     ResultParser parser;
     std::vector<TestCaseInfo> approved;
     std::vector<TestCaseInfo> failed;
@@ -162,7 +173,7 @@ int main()
         << "\nParsing File:\n"
         << resultFile
         << "\n";
-    if (parser.Parse(resultFile, tests))
+    if (parser.Parse(resultFile.string(), tests))
     {
         std::cout
             << "\nXML Parsed Successfully\n";
@@ -253,7 +264,11 @@ int main()
     time_t now = time(nullptr);
 
     tm localTime;
+#ifdef _WIN32
     localtime_s(&localTime, &now);
+#else
+    localtime_r(&now, &localTime);
+#endif
 
     char dateTime[100];
 
@@ -263,12 +278,13 @@ int main()
         "%d-%b-%Y %I:%M %p",
         &localTime);
 
-    std::string reportPath =
-        projectPath + "\\CTT_Report.html";
+    std::filesystem::path reportPath =
+        std::filesystem::path(projectPath) /
+        "CTT_Report.html";
     
     
     if(report.Generate(
-        reportPath,
+        reportPath.string(),
         projectName,
         dateTime,
         approved,
@@ -288,13 +304,26 @@ int main()
         std::cout
             << "\nOpening Report...\n";
 
+#ifdef _WIN32
+
         ShellExecuteA(
             NULL,
             "open",
-            reportPath.c_str(),
+            reportPath.string().c_str(),
             NULL,
             NULL,
             SW_SHOW);
+
+#else
+
+        std::string openCommand =
+            "xdg-open \"" +
+            reportPath.string() +
+            "\"";
+
+        system(openCommand.c_str());
+
+#endif
     }
     else
     {

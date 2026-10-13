@@ -9,6 +9,13 @@ std::string SelectionManager::GetSelectionFile(
         return projectSelection;
     }
 
-    return "C:\\Users\\z005caxw\\Desktop\\CTTAssistant\\CTTAssistant\\CTTAssistant\\MicroEmbedded2025.selection.xml";
+#ifdef _WIN32
 
+    return "MicroEmbedded2025.selection.xml";
+
+#else
+
+    return "./MicroEmbedded2025.selection.xml";
+
+#endif
 }
